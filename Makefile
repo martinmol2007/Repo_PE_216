@@ -5,7 +5,7 @@
 
 # ---- Missatge del commit (canvieu-lo abans de fer "make save") -------------
 #  També es pot passar per terminal:  make save MSG="Afegit l'algorisme naive"
-MSG = Aquest es el missatge que sortira al fer commit
+MSG = Can
 
 # ---- Membres del grup (per posar-los com a coautors) -------------------------
 #  Poseu el nom i el correu que cadascu te a GitHub (perque GitHub el reconegui)
