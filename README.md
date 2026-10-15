@@ -272,7 +272,10 @@ make                                                      # 2. compilar
 make save MSG="Que he fet"                                # 3. compila + commit + pull + push
 make save                                                 #    igual, amb el missatge per defecte (MSG_DEFECTE)
 make save MSG="Que hem fet" AMB="2 3"                     #    igual, amb els membres 2 i 3 com a coautors
+make forcar MSG="WIP: no compila"                         # ÚLTIM RECURS: puja SENSE compilar
 ```
+
+> ⚠️ `make forcar` fa commit + pull + push **sense compilar** i **no comprova que tot vagi bé**: pot pujar codi trencat. Feu-lo servir només per guardar feina a mitges i aviseu el grup.
 
 Per fer servir els coautors, cal posar abans el nom i el correu de GitHub de cada membre a les variables `MEMBRE_1`, `MEMBRE_2` i `MEMBRE_3` del `Makefile`. Feu servir el **correu privat de GitHub** (`...@users.noreply.github.com`, a *Settings → Emails*), no el personal: els correus dels commits queden públics a l'historial.
 

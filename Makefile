@@ -37,7 +37,7 @@ BINS = $(SRCS:%.cc=$(BINDIR)/%)
 # ---- Git ----------------------------------------------------------------------
 BRANCA = main
 
-.PHONY: all help run clean status pull commit push save log config
+.PHONY: all help run clean status pull commit push save log config forcar
 
 # Per defecte: compila tots els .cc de l'arrel
 all: $(BINS)
@@ -108,6 +108,15 @@ push:
 save: all commit pull push
 	@echo ">> Repositori guardat i sincronitzat"
 
+# PUJA-HO TOT ENCARA QUE NO COMPILI: commit + pull + push, SENSE compilar.
+#  ATENCIO: aquesta opcio NO comprova que tot vagi be. No compila el codi, aixi
+#  que pot pujar a GitHub codi trencat que despres no compilara als companys.
+#  Feu-la servir nomes quan calgui guardar la feina a mitges (p.ex. abans de
+#  marxar) i aviseu el grup. Normalment, feu servir  make save.
+#    make forcar MSG="WIP: no compila encara"
+forcar: commit pull push
+	@echo ">> Pujat SENSE compilar: el codi pot no funcionar!"
+
 # Historial dels ultims commits
 log:
 	@git log --oneline --graph --decorate -15
@@ -128,3 +137,6 @@ help:
 	@echo "  make save MSG=\"...\" AMB=2       Amb el membre 2 com a coautor"
 	@echo "  make save MSG=\"...\" AMB=\"2 3\"   Amb els membres 2 i 3 com a coautors"
 	@echo "  make log           Historial de commits"
+	@echo ""
+	@echo "  make forcar MSG=\"...\"  Commit + pull + push SENSE compilar. NO comprova que"
+	@echo "                     tot vagi be: pot pujar codi trencat. Nomes en cas d'urgencia."
