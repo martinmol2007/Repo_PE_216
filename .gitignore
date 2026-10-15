@@ -1,0 +1,28 @@
+# Executables i fitxers de compilacio
+bin/
+*.o
+*.out
+*.exe
+a.out
+
+# Notes locals de Claude (no es pugen)
+.claude/
+
+# R / RStudio
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+
+# Fitxers temporals d'Office (quan teniu un .docx obert)
+~$*
+
+# Sistema operatiu
+desktop.ini
+Thumbs.db
+.DS_Store
+*:Zone.Identifier
+
+# Editors
+.vscode/
+*.swp
