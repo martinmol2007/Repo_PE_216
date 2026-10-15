@@ -5,11 +5,15 @@
 
 # ---- Missatge del commit (canvieu-lo abans de fer "make save") -------------
 #  També es pot passar per terminal:  make save MSG="Afegit l'algorisme naive"
-MSG = Can
+MSG_DEFECTE = Canvis
+MSG = $(MSG_DEFECTE)
+# Si MSG queda buit (p.ex. make save MSG=""), es fa servir el missatge per defecte
+override MSG := $(or $(strip $(MSG)),$(MSG_DEFECTE))
 
 # ---- Membres del grup (per posar-los com a coautors) -------------------------
-#  Poseu el nom i el correu que cadascu te a GitHub (perque GitHub el reconegui)
-MEMBRE_1 = Martin Molina <martinmolinapavon1970@gmail.com>
+#  Poseu el nom i el correu PRIVAT de GitHub (el que acaba en @users.noreply.github.com,
+#  a GitHub -> Settings -> Emails). Aixi no es publica el correu personal als commits.
+MEMBRE_1 = Martin Molina <74263137+martinmol2007@users.noreply.github.com>
 MEMBRE_2 = Membre 2 <membre2@exemple.com>
 MEMBRE_3 = Membre 3 <membre3@exemple.com>
 
@@ -119,7 +123,7 @@ help:
 	@echo "  make pull          Baixa els canvis dels companys"
 	@echo "  make commit        Commit local amb el missatge MSG"
 	@echo "  make push          Puja els commits a GitHub"
-	@echo "  make save          Compila + commit + pull + push (tot en un)"
+	@echo "  make save          Compila + commit + pull + push (missatge per defecte: $(MSG_DEFECTE))"
 	@echo "  make save MSG=\"...\"  Igual, amb missatge personalitzat"
 	@echo "  make save MSG=\"...\" AMB=2       Amb el membre 2 com a coautor"
 	@echo "  make save MSG=\"...\" AMB=\"2 3\"   Amb els membres 2 i 3 com a coautors"
