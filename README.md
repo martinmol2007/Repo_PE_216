@@ -165,6 +165,7 @@ Repo_PE_216/
 ├── Makefile                  # Compilacio i flux de treball amb git (make help)
 ├── .gitignore                # Fitxers que no es pugen (bin/, .claude/, temporals...)
 ├── Guia_flux_de_treball_git.pdf  # Guia de git per al grup
+├── Guia_installacio_git.pdf      # Com instal·lar git, make i g++ (primer cop)
 ├── test.cc, test2.cc         # Codis C++ (es compilen a l'arrel amb make)
 ├── bin/                      # Executables generats per make (ignorat per git)
 ├── dades/                    # 🆕 Fitxers .csv amb les observacions
@@ -261,6 +262,8 @@ Treballem **a casa**, quan els membres del grup coincidim.
 ### Flux de treball amb git
 
 Tots treballem a la branca `main`. Explicació completa per a principiants: [`Guia_flux_de_treball_git.pdf`](Guia_flux_de_treball_git.pdf).
+
+**Primer cop?** Instal·la git, make i g++ i inicia sessió a GitHub seguint [`Guia_installacio_git.pdf`](Guia_installacio_git.pdf).
 
 ```bash
 make config NOM="Nom Cognom" EMAIL="correu@exemple.com"   # només la primera vegada
