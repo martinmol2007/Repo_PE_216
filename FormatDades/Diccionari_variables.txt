@@ -1,0 +1,41 @@
+DICCIONARI DE VARIABLES
+
+VARIABLES (columnes dels fitxers de dades)
+
+  n         Posicio del nombre de Fibonacci que es calcula.
+            Tipus: enter. Es la covariable Z de l'estudi.
+
+  temps_ns  Temps d'execucio de l'algorisme, en nanosegons.
+            Tipus: nombre. Es la variable resposta Y de l'estudi.
+            A Inputs: temps d'una sola execucio.
+            A Outputs: mitjana de les 10 execucions d'aquella n, arrodonida a l'enter.
+
+METODES (la variable X de l'estudi)
+
+  metode1   Algorisme 1: per decidir
+  metode2   Algorisme 2: per decidir
+  metode3   Algorisme 3: per decidir
+
+FITXERS (M = numero de metode, N = valor de n)
+
+  metodeM/Inputs/dades_nN.txt       Els 10 temps del metode M per a la n indicada.
+                                    Si nomes hi ha la capcalera, encara no s'ha mesurat.
+  metodeM/Outputs/dades_metodeM.txt Taula amb el temps mitja de cada n mesurada.
+  QuantitatDades.txt                Llista dels valors de n previstos.
+
+EXEMPLE DE FITXER A INPUTS (dades_n10.txt)
+
+  n temps_ns
+  10 79
+  10 19
+
+EXEMPLE DE FITXER A OUTPUTS (dades_metode1.txt)
+
+  n temps_ns
+  10 22
+  100 23
+
+LECTURA AMB R (des de l'arrel del repositori)
+
+  execucions <- read.table("FormatDades/metode1/Inputs/dades_n10.txt", header = TRUE)
+  mitjanes <- read.table("FormatDades/metode1/Outputs/dades_metode1.txt", header = TRUE)
