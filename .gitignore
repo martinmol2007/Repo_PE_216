@@ -26,3 +26,7 @@ Thumbs.db
 # Editors
 .vscode/
 *.swp
+
+# Dades privades de la planificacio (no es pugen)
+Planificaci*Responses*.xlsx
+Planificacion Grupo.pdf
