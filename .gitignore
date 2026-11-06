@@ -30,3 +30,6 @@ Thumbs.db
 # Dades privades de la planificacio (no es pugen)
 Planificaci*Responses*.xlsx
 Planificacion Grupo.pdf
+
+# Esborranys locals del protocol (no es pugen)
+PROTOCOL*.md
