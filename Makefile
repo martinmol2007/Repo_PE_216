@@ -30,29 +30,30 @@ TRAILERS = $(foreach i,$(AMB),--trailer "Co-authored-by: $(MEMBRE_$(i))") \
 CXX      = g++
 CXXFLAGS = -O2 -std=c++17 -Wall
 BINDIR   = bin
+CODI     = Treball
 
-SRCS = $(wildcard *.cc)
-BINS = $(SRCS:%.cc=$(BINDIR)/%)
+SRCS = $(wildcard $(CODI)/*.cc)
+BINS = $(SRCS:$(CODI)/%.cc=$(BINDIR)/%)
 
 # ---- Git ----------------------------------------------------------------------
 BRANCA = main
 
 .PHONY: all help run clean status pull commit push save log config forcar
 
-# Per defecte: compila tots els .cc de l'arrel
+# Per defecte: compila tots els .cc de la carpeta Treball
 all: $(BINS)
 	@echo ">> Compilacio feta. Executables a $(BINDIR)/"
 
-$(BINDIR)/%: %.cc | $(BINDIR)
+$(BINDIR)/%: $(CODI)/%.cc | $(BINDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 $(BINDIR):
 	@mkdir -p $(BINDIR)
 
-# Executa un programa:  make run P=test
+# Executa un programa des de la carpeta Treball:  make run P=mesura
 run: all
 	@if [ -z "$(P)" ]; then echo "Indica el programa: make run P=nom (sense .cc)"; exit 1; fi
-	./$(BINDIR)/$(P)
+	cd $(CODI) && ../$(BINDIR)/$(P)
 
 clean:
 	rm -rf $(BINDIR)

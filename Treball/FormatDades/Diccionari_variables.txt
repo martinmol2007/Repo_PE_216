@@ -10,6 +10,10 @@ VARIABLES (columnes dels fitxers de dades)
             A Inputs: temps d'una sola execucio.
             A Outputs: mitjana de les 10 execucions d'aquella n, arrodonida a l'enter.
 
+  metode1, metode2, metode3
+            Columnes de dades_totes.txt. Temps mitja de cada metode, en nanosegons.
+            NA vol dir que aquella n no s'ha mesurat amb aquell metode.
+
 METODES (la variable X de l'estudi)
 
   metode1   Algorisme 1: per decidir
@@ -18,6 +22,7 @@ METODES (la variable X de l'estudi)
 
 FITXERS (M = numero de metode, N = valor de n)
 
+  dades_totes.txt                   Taula conjunta: les mitjanes de tots els metodes.
   metodeM/Inputs/dades_nN.txt       Els 10 temps del metode M per a la n indicada.
                                     Si nomes hi ha la capcalera, encara no s'ha mesurat.
   metodeM/Outputs/dades_metodeM.txt Taula amb el temps mitja de cada n mesurada.
@@ -35,7 +40,13 @@ EXEMPLE DE FITXER A OUTPUTS (dades_metode1.txt)
   10 22
   100 23
 
+EXEMPLE DE TAULA CONJUNTA (dades_totes.txt)
+
+  n metode1 metode2 metode3
+  42 265641481 88 18
+  45 NA 94 17
+
 LECTURA AMB R (des de l'arrel del repositori)
 
-  execucions <- read.table("FormatDades/metode1/Inputs/dades_n10.txt", header = TRUE)
-  mitjanes <- read.table("FormatDades/metode1/Outputs/dades_metode1.txt", header = TRUE)
+  dades <- read.table("Treball/FormatDades/dades_totes.txt", header = TRUE)
+  execucions <- read.table("Treball/FormatDades/metode1/Inputs/dades_n10.txt", header = TRUE)

@@ -166,7 +166,11 @@ Repo_PE_216/
 ├── .gitignore                # Fitxers que no es pugen (bin/, .claude/, temporals...)
 ├── Guia_flux_de_treball_git.pdf  # Guia de git per al grup
 ├── Guia_installacio_git.pdf      # Com instal·lar git, make i g++ (primer cop)
-├── test.cc, test2.cc         # Codis C++ (es compilen a l'arrel amb make)
+├── Treball/                  # Codi i dades del treball (es compila amb make)
+│   ├── mesura.cc             # Experiment complet: make run P=mesura
+│   ├── test.cc, test2.cc     # Proves dels algorismes
+│   ├── Instruccions_execucio.pdf  # Com executar l'experiment
+│   └── FormatDades/          # Dades, llista de n i diccionari de variables
 ├── bin/                      # Executables generats per make (ignorat per git)
 ├── dades/                    # 🆕 Fitxers .csv amb les observacions
 ├── R/                        # 🆕 Scripts d'anàlisi en R
