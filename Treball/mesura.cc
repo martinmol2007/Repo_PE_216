@@ -177,13 +177,12 @@ int main() {
                 }
             }
 
-            // Primer es mesura i despres s'escriu, perque escriure no afecti els temps
+            // Primer es mesura i despres s'escriu, perque escriure no afecti els temps.
+            // Es desa despres de cada n: si s'atura amb Ctrl+C, no es perd el que ja s'ha mesurat.
             escriure_temps(metode, n, temps);
+            escriure_taula_metode(metode, valors_n, mitjanes[metode - 1]);
+            escriure_taula_conjunta(valors_n, mitjanes);
         }
-
-        escriure_taula_metode(metode, valors_n, mitjanes[metode - 1]);
-        // Despres de cada metode: si s'interromp, ja hi ha els metodes acabats
-        escriure_taula_conjunta(valors_n, mitjanes);
     }
 
     cout << "Fet. Taula conjunta: FormatDades/dades_totes.txt" << endl;
