@@ -89,8 +89,9 @@ Algorismes a comparar:
 ### Disseny proposat
 
 - **Dades aparellades:** cada valor de *n* s'executa amb tots els algorismes (és més eficient estadísticament).
-- **Mostra aleatòria simple (MAS):** els valors de *n* s'escullen **a l'atzar** dins d'un rang definit (amb un generador de nombres aleatoris i una llavor fixada perquè sigui reproduïble), no escollits a mà.
-- **Mida mostral:** mínim **30** observacions, recomanable **~50**.
+- **Mostra aleatòria per trams:** els valors de *n* s'escullen **a l'atzar** amb `Treball/tria_n.cc` (5 valors de cada un dels 6 trams entre 20 i 10⁷, amb la llavor 216), no escollits a mà.
+- **Mida mostral:** **30** valors de *n*, tal com demana el professor (25-30).
+- **Ordre d'execució aleatori:** `Treball/mesura.cc` barreja totes les execucions (algorisme, *n* i repetició) amb una llavor fixa.
 - **Una sola resposta principal (Y)**: el temps d'execució.
 
 ### Problemes a resoldre abans del protocol
@@ -115,7 +116,7 @@ Algorismes a comparar:
 - [ ] Implementar (o adaptar `test2.cc` a) la versió **memoïtzació** amb vector per referència.
 - [ ] Unificar els 3 algorismes (mateix tipus de retorn i mateix mòdul).
 - [ ] Programa de **mesura de temps** amb `<chrono>` (`std::chrono::steady_clock`).
-- [ ] Generació de valors de *n* **aleatoris** amb llavor fixa.
+- [x] Generació de valors de *n* **aleatoris** amb llavor fixa (`Treball/tria_n.cc`).
 - [ ] Escriure els resultats directament a un fitxer `.csv` llegible per R.
 
 ---

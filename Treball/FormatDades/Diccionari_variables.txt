@@ -16,9 +16,9 @@ VARIABLES (columnes dels fitxers de dades)
 
 METODES (la variable X de l'estudi)
 
-  metode1   Algorisme 1: per decidir
-  metode2   Algorisme 2: per decidir
-  metode3   Algorisme 3: per decidir
+  metode1   Recursio basica. Nomes es prova fins a n = 45 (les altres n surten NA).
+  metode2   Programacio dinamica
+  metode3   Duplicacio rapida
 
 FITXERS (M = numero de metode, N = valor de n)
 
@@ -26,7 +26,11 @@ FITXERS (M = numero de metode, N = valor de n)
   metodeM/Inputs/dades_nN.txt       Els 10 temps del metode M per a la n indicada.
                                     Si nomes hi ha la capcalera, encara no s'ha mesurat.
   metodeM/Outputs/dades_metodeM.txt Taula amb el temps mitja de cada n mesurada.
-  QuantitatDades.txt                Llista dels valors de n previstos.
+  ordre_execucio.txt                Totes les execucions, en l'ordre aleatori en que s'han fet.
+                                    Columnes: ordre, metode, n, repeticio, temps_ns.
+  QuantitatDades.txt                Els 30 valors de n, triats a l'atzar per tria_n.cc:
+                                    5 valors de cada tram (20-32, 33-45, 46-1000, 1001-20000,
+                                    20001-500000 i 500001-10000000), amb la llavor 216.
 
 EXEMPLE DE FITXER A INPUTS (dades_n10.txt)
 

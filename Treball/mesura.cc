@@ -1,5 +1,6 @@
-// Per a cada metode i cada n de QuantitatDades.txt, executa l'algorisme 10 vegades,
-// en calcula la mitjana i desa els resultats a FormatDades/.
+// Mesura tots els metodes amb totes les n de QuantitatDades.txt, 10 vegades cadascuna.
+// Totes les execucions (metode, n i repeticio) es fan en un unic ordre aleatori.
+// Calcula la mitjana de cada n i metode i desa els resultats a FormatDades/.
 //
 // Execucio (des de l'arrel del repositori):  make run P=mesura
 
@@ -8,30 +9,51 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace std;
 
 const int METODES = 3;
 const int EXECUCIONS = 10;
-const double LIMIT_SEGONS = 60;   // Si una execucio el supera, el metode no prova cap n mes gran
+const unsigned LLAVOR = 216;      // Llavor de l'ordre aleatori (numero del grup)
+const double LIMIT_SEGONS = 60;   // Si una execucio el supera, el metode descarta aquesta n i les mes grans
 const long long SENSE_DADA = -1;  // Marca una n sense mesurar (a la taula conjunta surt NA)
+
+// n mes gran que prova cada metode. Cal perque, en ordre aleatori, un algorisme
+// exponencial podria tocar una n enorme abans que el limit de temps l'aturi.
+const long long N_MAXIMA[METODES] = {
+    45,        // metode1: recursio basica
+    10000000,  // metode2: programacio dinamica
+    10000000,  // metode3: duplicacio rapida
+};
 
 
 // ---- ALGORISMES: substituiu el contingut de cada funcio ---------------------
-unsigned long long metode1(long long n) {
-    return n;  // TODO: algorisme 1
+// noipa no s'ha de treure: sense ell, g++ -O2 simplifica la recursio basica
+// (amb n = 44 passa de 2 s a 2 ms) i no es mesuraria l'algorisme real.
+__attribute__((noipa)) unsigned long long metode1(long long n) {
+    return n;  // TODO: recursio basica
 }
 
-unsigned long long metode2(long long n) {
-    return n;  // TODO: algorisme 2
+__attribute__((noipa)) unsigned long long metode2(long long n) {
+    return n;  // TODO: programacio dinamica
 }
 
-unsigned long long metode3(long long n) {
-    return n;  // TODO: algorisme 3
+__attribute__((noipa)) unsigned long long metode3(long long n) {
+    return n;  // TODO: duplicacio rapida
 }
 // -----------------------------------------------------------------------------
+
+
+// Una execucio pendent. index_n es la posicio de la n dins de valors_n
+struct Execucio {
+    int metode;
+    int index_n;
+    int repeticio;
+};
 
 
 // Executa l'algorisme del metode indicat
@@ -70,22 +92,27 @@ vector<long long> llegir_valors_n() {
 }
 
 
-// Mesura les 10 execucions d'una n. Si se supera el limit, retorna el vector buit
-vector<long long> mesurar_n(int metode, long long n, bool& limit_superat) {
-    vector<long long> temps;
+// Crea la llista de totes les execucions i la barreja amb la llavor fixa
+vector<Execucio> crear_ordre_aleatori(const vector<long long>& valors_n) {
+    vector<Execucio> ordre;
 
-    for (int i = 0; i < EXECUCIONS; i++) {
-        long long t = mesurar_temps(metode, n);
+    for (int metode = 1; metode <= METODES; metode++) {
+        for (int i = 0; i < (int)valors_n.size(); i++) {
+            if (valors_n[i] > N_MAXIMA[metode - 1]) continue;
 
-        if (t > LIMIT_SEGONS * 1e9) {
-            limit_superat = true;
-            return {};
+            for (int repeticio = 1; repeticio <= EXECUCIONS; repeticio++) {
+                ordre.push_back({metode, i, repeticio});
+            }
         }
-
-        temps.push_back(t);
     }
 
-    return temps;
+    // Barreja de Fisher-Yates: dona el mateix ordre a tots els ordinadors
+    mt19937 generador(LLAVOR);
+    for (int i = (int)ordre.size() - 1; i > 0; i--) {
+        swap(ordre[i], ordre[generador() % (i + 1)]);
+    }
+
+    return ordre;
 }
 
 
@@ -153,36 +180,72 @@ int main() {
 
     // Una fila per metode i una columna per n
     vector<vector<long long>> mitjanes(METODES, vector<long long>(valors_n.size(), SENSE_DADA));
+    vector<vector<vector<long long>>> temps(METODES, vector<vector<long long>>(valors_n.size()));
 
+    // La primera n que cada metode ja no ha de provar
+    vector<long long> n_descartada(METODES);
+
+    // Es deixen tots els fitxers buits perque no quedin resultats d'una mesura anterior
     for (int metode = 1; metode <= METODES; metode++) {
         string carpeta = "FormatDades/metode" + to_string(metode);
         filesystem::create_directories(carpeta + "/Inputs");
         filesystem::create_directories(carpeta + "/Outputs");
 
-        bool limit_superat = false;
+        n_descartada[metode - 1] = N_MAXIMA[metode - 1] + 1;
 
-        for (int i = 0; i < (int)valors_n.size(); i++) {
-            long long n = valors_n[i];
-            vector<long long> temps;
+        for (long long n : valors_n) {
+            escriure_temps(metode, n, {});
+        }
+        escriure_taula_metode(metode, valors_n, mitjanes[metode - 1]);
+    }
+    escriure_taula_conjunta(valors_n, mitjanes);
 
-            if (!limit_superat) {
-                cout << "metode" << metode << " | n = " << n << " ..." << flush;
-                temps = mesurar_n(metode, n, limit_superat);
+    vector<Execucio> ordre = crear_ordre_aleatori(valors_n);
+    ofstream registre("FormatDades/ordre_execucio.txt");
+    registre << "ordre metode n repeticio temps_ns" << endl;
 
-                if (limit_superat) {
-                    cout << " limit de " << LIMIT_SEGONS << " s superat; es descarta aquesta n i les seguents" << endl;
-                } else {
-                    mitjanes[metode - 1][i] = calcular_mitjana(temps);
-                    cout << " " << mitjanes[metode - 1][i] << " ns" << endl;
+    for (int k = 0; k < (int)ordre.size(); k++) {
+        int metode = ordre[k].metode;
+        int m = metode - 1;
+        int i = ordre[k].index_n;
+        long long n = valors_n[i];
+
+        if (n >= n_descartada[m]) continue;
+
+        cout << k + 1 << "/" << ordre.size() << " metode" << metode << " | n = " << n
+             << " | repeticio " << ordre[k].repeticio << " ..." << flush;
+
+        long long t = mesurar_temps(metode, n);
+
+        // Primer es mesura i despres s'escriu, perque escriure no afecti els temps.
+        // Es desa despres de cada execucio: si s'atura amb Ctrl+C, no es perd el que ja s'ha mesurat.
+        cout << " " << t << " ns" << endl;
+        registre << k + 1 << " " << metode << " " << n << " " << ordre[k].repeticio << " " << t << endl;
+
+        if (t > LIMIT_SEGONS * 1e9) {
+            cout << "Limit de " << LIMIT_SEGONS << " s superat: metode" << metode
+                 << " descarta n = " << n << " i les mes grans" << endl;
+            n_descartada[m] = n;
+
+            for (int j = 0; j < (int)valors_n.size(); j++) {
+                if (valors_n[j] >= n && !temps[m][j].empty()) {
+                    temps[m][j].clear();
+                    mitjanes[m][j] = SENSE_DADA;
+                    escriure_temps(metode, valors_n[j], {});
                 }
             }
+        } else {
+            temps[m][i].push_back(t);
+            escriure_temps(metode, n, temps[m][i]);
 
-            // Primer es mesura i despres s'escriu, perque escriure no afecti els temps.
-            // Es desa despres de cada n: si s'atura amb Ctrl+C, no es perd el que ja s'ha mesurat.
-            escriure_temps(metode, n, temps);
-            escriure_taula_metode(metode, valors_n, mitjanes[metode - 1]);
-            escriure_taula_conjunta(valors_n, mitjanes);
+            // Una n nomes te mitjana quan s'han fet totes les repeticions
+            if ((int)temps[m][i].size() < EXECUCIONS) continue;
+
+            mitjanes[m][i] = calcular_mitjana(temps[m][i]);
         }
+
+        escriure_taula_metode(metode, valors_n, mitjanes[m]);
+        escriure_taula_conjunta(valors_n, mitjanes);
     }
 
     cout << "Fet. Taula conjunta: FormatDades/dades_totes.txt" << endl;
