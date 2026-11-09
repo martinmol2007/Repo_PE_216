@@ -29,7 +29,7 @@ using namespace std;
 const int M = 50;
 string fitxerEntrada = "valores_aleatorios.csv";
 string fitxerSortida = "resultats4.txt";
-bool afegirOrdre = true;
+bool afegirOrdre = false;
 
 
 
