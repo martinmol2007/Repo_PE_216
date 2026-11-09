@@ -53,8 +53,8 @@ Big Big::operator-(const Big& other) const {
 Big Big::operator*(const Big& other) const {
     Big result;
     
-    // Buffer de 80 elements. Evita comprovar límits de l'array amb 'if' durant el càlcul.
-    std::array<int, 80> temp = {0};
+    // Buffer de N*2 elements. Evita comprovar límits de l'array amb 'if' durant el càlcul.
+    std::array<int, N*2> temp = {0};
 
     // Bucle fix de N^2 iteracions (NxN).
     for (int i = Big::N-1; i >= 0; i--) {
